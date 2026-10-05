@@ -71,5 +71,5 @@ python onnx_export/quantize_onnx.py --onnx-dir onnx_export/fastvlm_1.5b_geochat
 
 ## 라이선스 / 출처
 - 코드: 원본 FastVLM의 [LICENSE](LICENSE)
-- 학습 데이터: [GeoChat_Instruct](https://huggingface.co/datasets/MBZUAI/GeoChat_Instruct) (MBZUAI)
+- 학습 데이터: [GeoChat_Instruct](https://huggingface.co/datasets/MBZUAI/GeoChat_Instruct)
 - 기반 코드: [apple/ml-fastvlm](https://github.com/apple/ml-fastvlm), [LLaVA](https://github.com/haotian-liu/LLaVA), [GeoChat](https://github.com/mbzuai-oryx/GeoChat)

@@ -70,7 +70,8 @@ python onnx_export/quantize_onnx.py --onnx-dir onnx_export/fastvlm_1.5b_geochat
 # 5. 앱 설치 및 모델 복사 → android_ondevice/README.md 참고
 ```
 ## Demo 영상
-![Uploading 녹음 2026-10-05 161556 (1).gif…]()
+<img width="634" height="1010" alt="녹음 2026-10-05 161556 (1)" src="https://github.com/user-attachments/assets/0ad16e07-b090-4ca4-9040-0b07658d1150" />
+
 
 
 ## 라이선스 / 출처

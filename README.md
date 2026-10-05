@@ -1,4 +1,3 @@
-<img width="634" height="1010" alt="녹음 2026-10-05 161556 (1)" src="https://github.com/user-attachments/assets/857db3fc-8918-4a6f-bcea-e28e7fc235fc" />
 # MobileGeoVLM
 
 위성·항공 영상 분석용 Vision-Language Model을 **안드로이드 기기에서 오프라인으로** 실행하는 프로젝트입니다.

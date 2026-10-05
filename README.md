@@ -6,23 +6,22 @@ Apple의 [FastVLM](https://github.com/apple/ml-fastvlm) (FastViTHD + Qwen2) 1.5B
 
 ## 주요 기능
 - **원격탐사 특화 VLM**: 장면 분류, VQA, 물체 탐지(`[grounding]`), 물체 찾기(`[refer]`), 영역 식별(`[identify]`)
-- **온디바이스 추론**: 인터넷/서버 없이 ONNX Runtime(CPU)으로 실행
-- **실시간 카메라 / 갤러리** 입력, 5초 간격 추론 + 장면 변화 감지
+- **온디바이스 추론**: 인터넷/서버 없이 CPU로 실행
 - **박스 자동 시각화**: 답변 속 `<p>물체</p>{<x1><y1><x2><y2>|<각도>}`를 회전 박스·라벨로 표시
 - **영역 지정**: 화면에 그린 영역을 `[identify]` 박스 좌표로 변환
 - 지연 시간 · RAM 사용량 표시
 
 ## 파이프라인
 ```
-FastVLM-1.5B (stage3) ──LoRA 파인튜닝 (GeoChat_Instruct 308k)──▶ LoRA adapter
-        │                                                           │
-        └────────────── merge_lora.py ◀─────────────────────────────┘
+FastVLM-1.5B (stage3) ────────────────▶ LoRA adapter
+        │                                       │
+        └──────────── merge_lora.py ────────────┘
                             │
-                     export_onnx.py ──▶ vision_encoder / embed_tokens / decoder(+KV cache) .onnx
+                     export_onnx.py
                             │
-                    quantize_onnx.py ──▶ decoder 4bit (MatMulNBits), embedding int8, vision fp32
+                    quantize_onnx.py
                             │
-                Android 앱 (Kotlin + ONNX Runtime + CameraX)
+                        Android 앱 
 ```
 
 ## 결과 (Galaxy Tab S9, Snapdragon 8 Gen 2, CPU)
@@ -34,8 +33,7 @@ FastVLM-1.5B (stage3) ──LoRA 파인튜닝 (GeoChat_Instruct 308k)──▶ L
 | 생성 속도 | 약 19 tok/s |
 | RAM (추론 중 최대) | 약 2.6 GB |
 
-양자화 영향: 디코더 4bit·임베딩 int8은 FP32와 거의 동일한 답을 냈고, 비전 인코더 int8은 출력이 망가져 FP32를 유지했습니다.
-FP32 ONNX는 PyTorch와 greedy 출력이 토큰 단위로 일치합니다.
+양자화 영향: 디코더: int4,텍스터 임베딩:int8, 비전 인코더:FP32
 
 ## 폴더 구조
 | 경로 | 내용 |

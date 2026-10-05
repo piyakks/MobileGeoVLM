@@ -1,3 +1,4 @@
+<img width="634" height="1010" alt="녹음 2026-10-05 161556 (1)" src="https://github.com/user-attachments/assets/857db3fc-8918-4a6f-bcea-e28e7fc235fc" />
 # MobileGeoVLM
 
 위성·항공 영상 분석용 Vision-Language Model을 **안드로이드 기기에서 오프라인으로** 실행하는 프로젝트입니다.
@@ -68,12 +69,9 @@ python onnx_export/quantize_onnx.py --onnx-dir onnx_export/fastvlm_1.5b_geochat
 
 # 5. 앱 설치 및 모델 복사 → android_ondevice/README.md 참고
 ```
+## Demo 영상
+![Uploading 녹음 2026-10-05 161556 (1).gif…]()
 
-## 구현 메모
-- **3분할 ONNX**: 이미지는 한 번만 인코딩하고, 디코더만 KV 캐시와 함께 토큰마다 반복 실행
-- **Qwen2 BPE 토크나이저를 Kotlin으로 구현** (HF tokenizers와 결과 일치 테스트)
-- **fp16 NaN 이슈**: 학습 후 저장된 config로 eager attention이 선택되면 Qwen2의 큰 `k_proj` bias 때문에 fp16에서 오버플로 → SDPA 강제
-- **생성 미종료 이슈**: 체크포인트의 `generation_config`에 `eos_token_id`가 없어 `<|im_end|>`에서 멈추도록 지정
 
 ## 라이선스 / 출처
 - 코드: 원본 FastVLM의 [LICENSE](LICENSE) (수정 및 추가 코드 포함)

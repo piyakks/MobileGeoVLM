@@ -2,9 +2,12 @@
 
 위성·항공 영상 분석용 Vision-Language Model을 **안드로이드 기기에서 오프라인으로** 실행하는 프로젝트입니다.
 
-모델: FastVLM 1.5B [FastVLM](https://github.com/apple/ml-fastvlm)\\
-학습데이터:[GeoChat](https://github.com/mbzuai-oryx/GeoChat) \\
+모델: FastVLM 1.5B [FastVLM](https://github.com/apple/ml-fastvlm)
+
+학습데이터:[GeoChat](https://github.com/mbzuai-oryx/GeoChat)
+
 구동기기: Galaxy Tab S9
+
 ## 주요 기능
 - **원격탐사 특화 VLM**: 장면 분류, VQA, 물체 탐지(`[grounding]`), 물체 찾기(`[refer]`), 영역 식별(`[identify]`)
 - **온디바이스 추론**: 인터넷/서버 없이 CPU로 실행

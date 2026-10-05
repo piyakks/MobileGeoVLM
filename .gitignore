@@ -139,3 +139,12 @@ dmypy.json
 
 # FastVLM models
 app/FastVLM/model
+# ---- local artifacts (not for the repo)
+checkpoints/
+wandb/
+z.txt
+*.apk
+local.properties
+.gradle/
+.DS_Store
+._*

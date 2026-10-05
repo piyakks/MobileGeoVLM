@@ -28,7 +28,7 @@ def predict(args):
     # Load model
     disable_torch_init()
     model_name = get_model_name_from_path(model_path)
-    tokenizer, model, image_processor, context_len = load_pretrained_model(model_path, args.model_base, model_name, device="mps")
+    tokenizer, model, image_processor, context_len = load_pretrained_model(model_path, args.model_base, model_name, device="cuda")
 
     # Construct prompt
     qs = args.prompt
@@ -45,7 +45,7 @@ def predict(args):
     model.generation_config.pad_token_id = tokenizer.pad_token_id
 
     # Tokenize prompt
-    input_ids = tokenizer_image_token(prompt, tokenizer, IMAGE_TOKEN_INDEX, return_tensors='pt').unsqueeze(0).to(torch.device("mps"))
+    input_ids = tokenizer_image_token(prompt, tokenizer, IMAGE_TOKEN_INDEX, return_tensors='pt').unsqueeze(0).to(torch.device("cuda"))
 
     # Load and preprocess image
     image = Image.open(args.image_file).convert('RGB')
@@ -74,9 +74,9 @@ def predict(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model-path", type=str, default="./llava-v1.5-13b")
-    parser.add_argument("--model-base", type=str, default=None)
-    parser.add_argument("--image-file", type=str, default=None, help="location of image file")
+    parser.add_argument("--model_path", type=str, default="./checkpoints/llava-v1.5-13b")
+    parser.add_argument("--model_base", type=str, default=None)
+    parser.add_argument("--image_file", type=str, default=None, help="location of image file")
     parser.add_argument("--prompt", type=str, default="Describe the image.", help="Prompt for VLM.")
     parser.add_argument("--conv-mode", type=str, default="qwen_2")
     parser.add_argument("--temperature", type=float, default=0.2)

@@ -19,6 +19,7 @@ import os
 import copy
 from dataclasses import dataclass, field
 import json
+import random
 import logging
 import pathlib
 from typing import Dict, Optional, Sequence, List
@@ -81,6 +82,9 @@ class DataArguments:
     image_grid_pinpoints: Optional[str] = field(default=None)
     image_crop_resolution: Optional[int] = field(default=None)
     image_split_resolution: Optional[int] = field(default=None)
+    max_samples: Optional[int] = field(default=None,
+                           metadata={"help": "Train on a stratified random subset of this many samples (all if unset)."})
+    sample_seed: int = field(default=42, metadata={"help": "Seed for --max_samples, so every rank picks the same subset."})
 
 
 @dataclass
@@ -888,6 +892,37 @@ def preprocess(
     return dict(input_ids=input_ids, labels=targets)
 
 
+def _sample_group(entry: Dict) -> str:
+    """Task tag ([refer]/[identify]/[grounding]) or image source folder, used to keep the data mix."""
+    question = entry["conversations"][0]["value"] if entry.get("conversations") else ""
+    for tag in ("[refer]", "[identify]", "[grounding]"):
+        if tag in question:
+            return tag
+    image = entry.get("image") or ""
+    return image.split("/")[0] if "/" in image else "other"
+
+
+def subsample(data: List[Dict], max_samples: int, seed: int) -> List[Dict]:
+    """Random subset of max_samples entries that keeps each group's share of the full dataset."""
+    rng = random.Random(seed)
+    groups: Dict[str, List[Dict]] = {}
+    for entry in data:
+        groups.setdefault(_sample_group(entry), []).append(entry)
+
+    picked, rest = [], []
+    for key in sorted(groups):
+        items = groups[key][:]
+        rng.shuffle(items)
+        k = int(max_samples * len(items) / len(data))
+        picked += items[:k]
+        rest += items[k:]
+    # Rounding leaves a few slots; fill them from the leftovers
+    rng.shuffle(rest)
+    picked += rest[: max_samples - len(picked)]
+    rng.shuffle(picked)
+    return picked
+
+
 class LazySupervisedDataset(Dataset):
     """Dataset for supervised fine-tuning."""
 
@@ -901,6 +936,11 @@ class LazySupervisedDataset(Dataset):
             data = json.load(open(_data_path, "r"))
             data = [{**entry, 'img_path_idx': i} for entry in data]
             list_data_dict += data
+
+        if data_args.max_samples is not None and data_args.max_samples < len(list_data_dict):
+            n_total = len(list_data_dict)
+            list_data_dict = subsample(list_data_dict, data_args.max_samples, data_args.sample_seed)
+            rank0_print(f"max_samples: using {len(list_data_dict)} of {n_total} samples (seed {data_args.sample_seed})")
 
         self.tokenizer = tokenizer
         self.list_data_dict = list_data_dict

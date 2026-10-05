@@ -41,25 +41,15 @@ FastVLM-1.5B (stage3) ────────────────▶ LoRA a
 
 양자화 영향: 디코더: int4,텍스터 임베딩:int8, 비전 인코더:FP32
 
-## 폴더 구조
-| 경로 | 내용 |
-|---|---|
-| `scripts/finetune_geochat_lora.sh` | GeoChat LoRA 학습 (DeepSpeed ZeRO-2, RTX 3090 x2) |
-| `llava/train/train_qwen.py` | 학습 코드 (`--max_samples`: 데이터 비율을 유지한 서브샘플링) |
-| `predict_lora.py`, `geochat_demo.py` | PC 추론 (원본 vs LoRA 비교), Gradio 데모 |
-| `onnx_export/` | `merge_lora.py` → `export_onnx.py` → `quantize_onnx.py`, 검증용 `run_onnx.py` |
-| `android_ondevice/` | 온디바이스 안드로이드 앱 |
-| `server/`, `android_client/` | (선택) PC GPU 서버 + 웹/안드로이드 클라이언트 |
-
 ## 실행 방법
 ```bash
-# 1. 환경 (학습/추론: transformers 4.48.3)
+# 1. 환경 
 conda create -n fastvlm-train python=3.10 && conda activate fastvlm-train
 pip install -e ".[train]" && pip install flash-attn --no-build-isolation
 bash get_models.sh                                   # FastVLM 체크포인트
 
 # 2. LoRA 학습
-DATA_DIR=/path/to/GeoChat_data bash scripts/finetune_geochat_lora.sh
+bash scripts/finetune_geochat_lora.sh
 
 # 3. 추론 확인
 python predict_lora.py --lora_path checkpoints/llava-fastvithd_1.5b_stage3-geochat-lora \

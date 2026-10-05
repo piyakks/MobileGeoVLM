@@ -124,24 +124,6 @@ conda activate fastvlm
 pip install -e .
 ```
 
-### Model Zoo
-For detailed information on various evaluations, please refer to our [paper](https://www.arxiv.org/abs/2412.13303).
-
-| Model        | Stage |                                            Pytorch Checkpoint (url)                                             |
-|:-------------|:-----:|:---------------------------------------------------------------------------------------------------------------:|
-| FastVLM-0.5B |   2   | [fastvlm_0.5b_stage2](https://ml-site.cdn-apple.com/datasets/fastvlm/llava-fastvithd_0.5b_stage2.zip) |
-|              |   3   | [fastvlm_0.5b_stage3](https://ml-site.cdn-apple.com/datasets/fastvlm/llava-fastvithd_0.5b_stage3.zip) |
-| FastVLM-1.5B |   2   | [fastvlm_1.5b_stage2](https://ml-site.cdn-apple.com/datasets/fastvlm/llava-fastvithd_1.5b_stage2.zip) |
-|              |   3   | [fastvlm_1.5b_stage3](https://ml-site.cdn-apple.com/datasets/fastvlm/llava-fastvithd_1.5b_stage3.zip)  |
-| FastVLM-7B   |   2   | [fastvlm_7b_stage2](https://ml-site.cdn-apple.com/datasets/fastvlm/llava-fastvithd_7b_stage2.zip)  |
-|              |   3   | [fastvlm_7b_stage3](https://ml-site.cdn-apple.com/datasets/fastvlm/llava-fastvithd_7b_stage3.zip)  |
-
-To download all the pretrained checkpoints run the command below (note that this might take some time depending on your connection so might be good to grab ☕️ while you wait).
-
-```bash
-bash get_models.sh   # Files will be downloaded to `checkpoints` directory.
-```
-
 ### Usage Example
 To run inference of PyTorch checkpoint, follow the instruction below
 ```bash

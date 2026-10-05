@@ -2,7 +2,7 @@
 
 위성·항공 영상 분석용 Vision-Language Model을 **안드로이드 기기에서 오프라인으로** 실행하는 프로젝트입니다.
 
-기존 학습된 VLM에 Lora기반 Finetuning을 통한 모델 설계  
+기존 학습된 VLM에 LoRA기반 Finetuning을 통한 모델 설계  
 
 모델: FastVLM 1.5B [FastVLM](https://github.com/apple/ml-fastvlm)
 

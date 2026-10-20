@@ -51,18 +51,9 @@ bash get_models.sh                                   # FastVLM 체크포인트
 # 2. LoRA 학습
 bash scripts/finetune_geochat_lora.sh
 
-# 3. 추론 확인
-python predict_lora.py --lora_path checkpoints/llava-fastvithd_1.5b_stage3-geochat-lora \
-    --model_base checkpoints/llava-fastvithd_1.5b_stage3 --image_file demo_images/church_183.png \
-    --prompt "[grounding] describe this image in detail"
+# 3. 병합 → ONNX → 양자화
 
-# 4. 병합 → ONNX → 양자화
-python onnx_export/merge_lora.py --lora-path checkpoints/llava-fastvithd_1.5b_stage3-geochat-lora \
-    --model-base checkpoints/llava-fastvithd_1.5b_stage3 --out checkpoints/fastvlm-1.5b-geochat-merged
-python onnx_export/export_onnx.py --model-path checkpoints/fastvlm-1.5b-geochat-merged --out onnx_export/fastvlm_1.5b_geochat
-python onnx_export/quantize_onnx.py --onnx-dir onnx_export/fastvlm_1.5b_geochat
-
-# 5. 앱 설치 및 모델 복사 → android_ondevice/README.md 참고
+# 4. 앱 설치 및 모델 복사 → android_ondevice/README.md 참고
 ```
 ## Demo 영상
 <img width="634" height="1010" alt="녹음 2026-10-05 161556 (1)" src="https://github.com/user-attachments/assets/0ad16e07-b090-4ca4-9040-0b07658d1150" />

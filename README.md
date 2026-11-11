@@ -46,7 +46,7 @@ FastVLM-1.5B (stage3) ────────────────▶ LoRA a
 # 1. 환경 
 conda create -n fastvlm-train python=3.10 && conda activate fastvlm-train
 pip install -e ".[train]" && pip install flash-attn --no-build-isolation
-bash get_models.sh                                   # FastVLM 체크포인트
+bash get_models.sh # FastVLM 체크포인트
 
 # 2. LoRA 학습
 bash scripts/finetune_geochat_lora.sh
